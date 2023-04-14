@@ -51,7 +51,6 @@ class TestPlaylist(unittest.TestCase):
 'You are not listening to anything in "Calming music" playlist.')
         self.assertEqual(self.relax_playlist.get_playlist_description(),
 'You can not access this playlist creator.')
-        # self.assertEqual(SpecialPlaylist.playlist_count, 1)
         self.sport_playlist = SpecialPlaylist("Sport", "Max")
         self.assertEqual(self.sport_playlist._SpecialPlaylist__creator, "Max")
         self.assertEqual(self.sport_playlist.get_playlist_description(),
