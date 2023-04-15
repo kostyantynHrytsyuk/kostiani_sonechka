@@ -42,43 +42,43 @@ It's ticket costs ... It's destination is 'Lviv-Kharkiv'."
         assert str(error) == "The train's № 1522 destination is not defined yet."
 
 
-    # We also have passangers of our train
-    passag_1 = Passanger('Alex')
-    # We must validate whether the name of a passanger is set correctly
+    # We also have passengers of our train
+    passag_1 = Passenger('Alex')
+    # We must validate whether the name of a passenger is set correctly
     # There must not be any digits or special characters
-    assert Passanger.validate_name('Alex') is True
-    assert Passanger.validate_name('Alex123') is False
-    assert Passanger.validate_name('Al_ex') is False
-    # Every passanger has his/her own sum of money. This attribute is private
+    assert Passenger.validate_name('Alex') is True
+    assert Passenger.validate_name('Alex123') is False
+    assert Passenger.validate_name('Al_ex') is False
+    # Every passenger has his/her own sum of money. This attribute is private
     # But we can easily see how much money do we have because of property :)
-    passag_1 = Passanger('Alex', 500)
+    passag_1 = Passenger('Alex', 500)
     assert passag_1.money == 500
 
-    # We can add passangers to our train(but we can not do it now)
-    assert train.add_passanger(passag_1) == 'Passanger Alex does not have a ticket.'
+    # We can add passengers to our train(but we can not do it now)
+    assert train.add_passenger(passag_1) == 'Passenger Alex does not have a ticket.'
 
-    # Passanger must buy a ticket for a train
+    # Passenger must buy a ticket for a train
     assert train.buy_ticket(passag_1) == 'The cost of the ticket is not defined.'
 
     # We must set a price for ticket to buy it. Let's set a ticket, which is very expensive
     train.set_cost_of_ticket(800)
     assert train.buy_ticket(passag_1) == \
-'Passanger Alex does not have enough money to buy a ticket.'
+'Passenger Alex does not have enough money to buy a ticket.'
 
     train.set_cost_of_ticket(300)
     train.buy_ticket(passag_1)
-    # The sum of money of our passanger must have changed
+    # The sum of money of our passenger must have changed
     assert passag_1.money == 200
 
     # Now we can add Alex to our train
-    train.add_passanger(passag_1)
-    # We can also view what passangers are on the train
-    assert train.view_passangers() == "Passangers on the train :['Alex']"
-    # Let's try to remove a passanger
-    passag_2 = Passanger('Marko', 800)
-    assert train.remove_passanger(passag_2) == 'Passanger Marko is not on the train.'
-    train.remove_passanger(passag_1)
-    assert train.view_passangers() == 'Passangers on the train :[]'
+    train.add_passenger(passag_1)
+    # We can also view what passengers are on the train
+    assert train.view_passengers() == "Passengers on the train :['Alex']"
+    # Let's try to remove a passenger
+    passag_2 = Passenger('Marko', 800)
+    assert train.remove_passenger(passag_2) == 'Passenger Marko is not on the train.'
+    train.remove_passenger(passag_1)
+    assert train.view_passengers() == 'Passengers on the train :[]'
 
     # We also have another type of train - Coupe Train
     coupe_1 = CoupeTrain(4158, 340)
@@ -87,14 +87,14 @@ It's ticket costs ... It's destination is 'Lviv-Kharkiv'."
 
     # If the coupe train starts moving, you can not exit it
     coupe_1.start_moving()
-    assert coupe_1.exit(passag_1) == 'Passanger Alex is not on the train.'
-    coupe_1.add_passanger(passag_1)
-    assert coupe_1.view_passangers() == "Passangers on the train :['Alex']"
-    assert coupe_1.exit(passag_1) == 'Passanger Alex can not exit the train, \
+    assert coupe_1.exit(passag_1) == 'Passenger Alex is not on the train.'
+    coupe_1.add_passenger(passag_1)
+    assert coupe_1.view_passengers() == "Passengers on the train :['Alex']"
+    assert coupe_1.exit(passag_1) == 'Passenger Alex can not exit the train, \
 because it is currently moving.'
     coupe_1.stop_moving()
     coupe_1.exit(passag_1)
-    assert coupe_1.view_passangers() == 'Passangers on the train :[]'
+    assert coupe_1.view_passengers() == 'Passengers on the train :[]'
 
     # We can compare coupe trains
     coupe_2 = CoupeTrain(num=1234, cap=50)
@@ -108,31 +108,31 @@ because it is currently moving.'
     assert CoupeTrain.coupe_count == 5
     # Travel Train is a mix of Train and CoupeTrain
     travel_train = TravelTrain(3567, 300)
-    assert travel_train.add_passanger(passag_2) == 'Passanger Marko does not have a ticket.'
+    assert travel_train.add_passenger(passag_2) == 'Passenger Marko does not have a ticket.'
     travel_train.set_cost_of_ticket(600)
     travel_train.buy_ticket(passag_2)
-    travel_train.add_passanger(passag_2)
-    assert travel_train.view_passangers() == "Passangers on the train :['Marko']"
+    travel_train.add_passenger(passag_2)
+    assert travel_train.view_passengers() == "Passengers on the train :['Marko']"
     travel_train.start_moving()
-    assert travel_train.exit(passag_2) == "Passanger Marko can not exit the train, \
+    assert travel_train.exit(passag_2) == "Passenger Marko can not exit the train, \
 because it is currently moving."
     travel_train.stop_moving()
-    assert travel_train.remove_passanger(passag_1) == 'Passanger Alex is not on the train.'
-    travel_train.remove_passanger(passag_2)
-    assert travel_train.view_passangers() == "Passangers on the train :[]"
+    assert travel_train.remove_passenger(passag_1) == 'Passenger Alex is not on the train.'
+    travel_train.remove_passenger(passag_2)
+    assert travel_train.view_passengers() == "Passengers on the train :[]"
 
     # Travel Train is also special because
     # at each stop you can buy a souvenir
-    # Passanger can not buy souvenir, when the train is moving
+    # Passenger can not buy souvenir, when the train is moving
     travel_train.start_moving()
-    assert travel_train.buy_souvenirs(passag_1) == 'Passanger Alex is not on the train.'
+    assert travel_train.buy_souvenirs(passag_1) == 'Passenger Alex is not on the train.'
     travel_train.set_cost_of_ticket(100)
     travel_train.buy_ticket(passag_1)
-    travel_train.add_passanger(passag_1)
+    travel_train.add_passenger(passag_1)
     assert travel_train.buy_souvenirs(passag_1) == \
-"Passanger Alex can not buy souvenirs, because the train is moving."
+"Passenger Alex can not buy souvenirs, because the train is moving."
     travel_train.stop_moving()
-    assert travel_train.buy_souvenirs(passag_1) == 'Passanger Alex successfully bought a souvenir.'
+    assert travel_train.buy_souvenirs(passag_1) == 'Passenger Alex successfully bought a souvenir.'
 
     # A railway station has a lot of trains
     railway_station = set()
